@@ -3,6 +3,7 @@ require('gridlayout.lua')
 require('item.lua')
 require('core.lua')
 require('enemy.lua')
+require('sprite.lua')
 
 function love.load()
     gridLayout = newGridLayoutFromImage('level.png')
@@ -12,6 +13,10 @@ function love.load()
     core.player = player
     levelDesign = love.graphics.newImage('tiles.png')
     gridLayout.tileImage = levelDesign
+    sprite = newSprite(levelDesign, 32, 64)
+    for i, item in pairs(core.items) do
+        item.sprite = sprite
+    end
 end
 
 function love.update(dt)

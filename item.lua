@@ -9,10 +9,12 @@ function newItem(x, y, width, height)
     item.height = height
     item.onGround = false
     item.jumpsLeft = 0
+    item.sprite = nil
     
     function item:draw()
-        love.graphics.setColor({255, 255, 0})
-        love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+        --love.graphics.setColor({255, 255, 0})
+        --love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+        self.sprite:draw(self.x, self.y)
     end
 
     function item:move(dx, dy)
