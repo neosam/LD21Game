@@ -12,7 +12,6 @@ function love.load()
 end
 
 function love.update(dt)
-    camera.x = camera.x + 0.1
     core:handleInput()
     core:update(dt)
 end

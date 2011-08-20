@@ -5,6 +5,22 @@ core.level = nil
 core.player = nil
 core.items = {}
 core.gravity = 2
+core.cameraPlayerDistance = 100 
+
+function core:handleCamera()
+    local dx = player.x - camera.x
+    local dy = player.y - camera.y
+    if dx < self.cameraPlayerDistance then
+        camera.x = player.x - core.cameraPlayerDistance
+    end
+    if dy < self.cameraPlayerDistance then
+        camera.y = player.y - core.cameraPlayerDistance
+    end
+    if dx > love.graphics.getWidth() - self.cameraPlayerDistance then
+        camera.x = player.x - love.graphics.getWidth() 
+                                + self.cameraPlayerDistance
+    end
+end
 
 function core:update(dt)
     for i, item in pairs(core.items) do
@@ -22,8 +38,7 @@ function core:update(dt)
     end
 
     -- reset camera position
-    camera.x = player.x - 400
-    camera.y = player.y - 300
+    self:handleCamera()
 end
 
 function core:handleInput()
