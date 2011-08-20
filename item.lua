@@ -8,6 +8,7 @@ function newItem(x, y, width, height)
     item.width = width
     item.height = height
     item.onGround = false
+    item.jumpsLeft = 0
     
     function item:draw()
         love.graphics.setColor({255, 255, 0})
@@ -30,6 +31,13 @@ function newItem(x, y, width, height)
             item.x = newX
             item.y = newY
         end
+    end
+
+    function item:jump()
+        if self.onGround == false then
+            return
+        end
+        item.jumpsLeft = 16
     end
 
     return item
