@@ -10,6 +10,8 @@ function love.load()
     core.level = gridLayout
     table.insert(core.items, player)
     core.player = player
+    levelDesign = love.graphics.newImage('tiles.png')
+    gridLayout.tileImage = levelDesign
 end
 
 function love.update(dt)

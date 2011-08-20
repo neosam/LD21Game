@@ -40,6 +40,7 @@ function newGridLayout(width, height, tileSize)
     gridLayout.size = width * height
     gridLayout.tileSize = tileSize or 32
     gridLayout.grid = {}
+    gridLayout.tileImage = nil
 
     for i = 0, gridLayout.size do
         gridLayout.grid[i] = {
@@ -60,23 +61,29 @@ function newGridLayout(width, height, tileSize)
         local yBegin = math.max(math.floor(camera.y / self.tileSize), 0)
         local xTo = math.min(xBegin + 32, self.width - 1)
         local yTo = math.min(yBegin + 32, self.height - 1)
+        local quad = nil;
+        local quad1 = love.graphics.newQuad(0, 0, 32, 32, 
+                            self.tileImage:getWidth(),
+                            self.tileImage:getHeight())
+        local quad2 = love.graphics.newQuad(33, 0, 32, 32, 
+                            self.tileImage:getWidth(),
+                            self.tileImage:getHeight())
+        love.graphics.setColor({255, 255, 255})
         for y = yBegin, yTo do
             for x = xBegin, xTo do
                 tile = self.grid[y * self.width + x]
                 if tile.tile ~= 0 then
                     if tile.tile == 1 then
-                        love.graphics.setColor({255, 255, 255})
+                        quad = quad1
                     elseif tile.tile == 2 then
-                        love.graphics.setColor({255, 0, 0})
+                        quad = quad2
                     elseif tile.tile == 3 then
-                        love.graphics.setColor({0, 255, 0})
                     elseif tile.tile == 4 then
-                        love.graphics.setColor({0, 0, 255})
                     end
-                    love.graphics.rectangle('fill', x * self.tileSize,
-                                            y * self.tileSize,
-                                            self.tileSize,
-                                            self.tileSize)
+                    love.graphics.drawq(self.tileImage, quad, 
+                                    (x+1) * self.tileSize,
+                                    (y+1) * self.tileSize, 0, 1, 1,
+                                    32, 32)
                 end
             end
         end
