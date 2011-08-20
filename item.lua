@@ -2,7 +2,7 @@ require('camera.lua')
 require('core.lua')
 
 function newItem(x, y, width, height)
-    item = {}
+    local item = {}
     item.x = x
     item.y = y
     item.width = width
@@ -18,6 +18,7 @@ function newItem(x, y, width, height)
     function item:move(dx, dy)
         local newX = self.x + dx
         local newY = self.y + dy
+        local possible = false
         if newX < 0 or newY < 0 or 
                     newX > core.level.width * core.level.tileSize or
                     newY > core.level.height * core.level.tileSize then
@@ -37,6 +38,7 @@ function newItem(x, y, width, height)
         else
             item.x = newX
             item.y = newY
+            possible = true
         end
         if core.level:getTileAt(item.x + 4, item.y + self.height).wall 
                                 == false
@@ -44,6 +46,7 @@ function newItem(x, y, width, height)
                                     item.y + self.height).wall == false then
             self.onGround = false
         end
+        return possible
     end
 
     function item:jump()

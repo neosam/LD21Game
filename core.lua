@@ -6,6 +6,7 @@ core.player = nil
 core.items = {}
 core.gravity = 8
 core.cameraPlayerDistance = 200 
+core.enemies = {}
 
 function core:handleCamera()
     local dx = player.x - camera.x
@@ -61,6 +62,11 @@ function core:update(dt)
 
     -- reset camera position
     self:handleCamera()
+
+    -- enemies
+    for i, enemy in pairs(core.enemies) do
+        enemy:doStuff()
+    end
 end
 
 function core:handleInput()
