@@ -3,10 +3,10 @@
 core = {}
 core.level = nil
 core.items = {}
-core.gravity = 4
+core.gravity = 0.3
 
 function core:update(dt)
-    for item in pairs(self.items) do
-        item.y = item.y + self.gravity 
+    for i, item in pairs(core.items) do
+        item.y = item.y + self.gravity
     end
 end

@@ -11,6 +11,7 @@ end
 
 function love.update(dt)
     camera.x = camera.x + 0.1
+    core:update(dt)
 end
 
 function love.draw()
