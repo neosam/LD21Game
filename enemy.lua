@@ -3,7 +3,7 @@ require('core.lua')
 require('item.lua')
 
 function newBasicEnemy(x, y)
-    enemy = newItem(x, y, core.level.tileSize, core.level.tileSize)
+    local enemy = newItem(x, y, 32, 32)
     table.insert(core.enemies, enemy)
     table.insert(core.items, enemy)
     enemy.walking = -2

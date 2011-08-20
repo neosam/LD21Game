@@ -1,4 +1,3 @@
-require('camera.lua')
 
 function newGridLayoutFromImage(filename, tileSize)
     local img = love.image.newImageData(filename)
@@ -8,6 +7,9 @@ function newGridLayoutFromImage(filename, tileSize)
     for y = 0, img:getHeight() - 1 do
         for x = 0, img:getWidth() - 1 do
             r, g, b, a = img:getPixel(x, y)
+            if r ~= 0 or g ~= 0 or b ~= 0 then
+                gridLayout.grid[y * gridLayout.width + x].wall = true
+            end
             if r == 255 and g == 255 and b == 255 then
                 gridLayout.grid[y * gridLayout.width + x].tile = 1
             elseif r == 255 and g == 0 and b == 0 then
@@ -16,11 +18,15 @@ function newGridLayoutFromImage(filename, tileSize)
                 gridLayout.grid[y * gridLayout.width + x].tile = 3
             elseif r == 0 and g == 0 and b == 255 then
                 gridLayout.grid[y * gridLayout.width + x].tile = 4
+            elseif r == 255 and g == 255 and b == 0 then
+                newBasicEnemy(x * gridLayout.tileSize,
+                            y * gridLayout.tileSize)
+                gridLayout.grid[y * gridLayout.width + x].wall = false
+            elseif r == 255 and g == 0 and b == 255 then
+                gridLayout.grid[y * gridLayout.width + x].wall = false
+                gridLayout.grid[y * gridLayout.width + x].checkpoint = true
             end
 
-            if r ~= 0 or g ~= 0 or b ~= 0 then
-                gridLayout.grid[y * gridLayout.width + x].wall = true
-            end
         end
     end
 
@@ -38,7 +44,8 @@ function newGridLayout(width, height, tileSize)
     for i = 0, gridLayout.size do
         gridLayout.grid[i] = {
                 tile=0,
-                wall=false
+                wall=false,
+                checkpoint = false
         }
     end
 

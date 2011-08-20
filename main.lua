@@ -10,7 +10,6 @@ function love.load()
     core.level = gridLayout
     table.insert(core.items, player)
     core.player = player
-    newBasicEnemy(400, 400)
 end
 
 function love.update(dt)
@@ -25,6 +24,9 @@ function love.draw()
         item:draw()
     end
     camera:unset()
+    love.graphics.setColor({0, 0, 0})
+    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), 20)
     love.graphics.setColor({255, 255, 255})
     love.graphics.print("FPS: "..love.timer.getFPS(), 10, 10)
+    love.graphics.print("Time left: " .. core.timeLeft, 300, 10)
 end

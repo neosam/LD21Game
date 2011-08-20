@@ -7,6 +7,7 @@ core.items = {}
 core.gravity = 8
 core.cameraPlayerDistance = 200 
 core.enemies = {}
+core.timeLeft = 1000
 
 function core:handleCamera()
     local dx = player.x - camera.x
@@ -59,6 +60,7 @@ function core:update(dt)
             end
         end
     end
+    core.timeLeft = core.timeLeft - 1
 
     -- reset camera position
     self:handleCamera()

@@ -27,7 +27,11 @@ function newItem(x, y, width, height)
         if core.level:getTileAt(newX, newY).wall 
                 or core.level:getTileAt(newX + self.width, newY).wall 
                 or core.level:getTileAt(newX + self.width, newY + self.height - 2).wall 
-                or core.level:getTileAt(newX, newY + self.height - 2).wall then
+                or core.level:getTileAt(newX, newY + self.height - 2).wall 
+                or core.level:getTileAt(newX + self.width, newY + self.height/2 - 2).wall 
+                or core.level:getTileAt(newX, newY + self.height/2 - 2).wall 
+                or core.level:getTileAt(newX + self.width, newY + self.height/4*2 + 2).wall 
+                or core.level:getTileAt(newX, newY + self.height/4*3 + 2).wall then
             if dx > 0 then
                 self.x = math.floor((self.x - 3) / core.level.tileSize) 
                             * core.level.tileSize + core.level.tileSize
@@ -46,6 +50,27 @@ function newItem(x, y, width, height)
                                     item.y + self.height).wall == false then
             self.onGround = false
         end
+        -- Checkpoint
+        if core.level:getTileAt(newX, newY).checkpoint 
+                or core.level:getTileAt(newX + self.width, newY).checkpoint 
+                or core.level:getTileAt(newX + self.width, newY + self.height - 2).checkpoint 
+                or core.level:getTileAt(newX, newY + self.height - 2).checkpoint 
+                or core.level:getTileAt(newX + self.width, newY + self.height/2 - 2).checkpoint 
+                or core.level:getTileAt(newX, newY + self.height/2 - 2).checkpoint 
+                or core.level:getTileAt(newX + self.width, newY + self.height/4*2 + 2).checkpoint 
+                or core.level:getTileAt(newX, newY + self.height/4*3 + 2).checkpoint then
+            core.level:getTileAt(newX, newY).checkpoint = false
+            core.level:getTileAt(newX + self.width, newY).checkpoint = false
+            core.level:getTileAt(newX + self.width, newY + self.height - 2).checkpoint = false
+            core.level:getTileAt(newX, newY + self.height - 2).checkpoint = false
+            core.level:getTileAt(newX + self.width, newY + self.height/2 - 2).checkpoint = false
+            core.level:getTileAt(newX, newY + self.height/2 - 2).checkpoint = false
+            core.level:getTileAt(newX + self.width, newY + self.height/4*2 + 2).checkpoint = false
+            core.level:getTileAt(newX, newY + self.height/4*3 + 2).checkpoint = false
+            core.timeLeft = core.timeLeft + 1000
+            io.flush()
+
+        end
         return possible
     end
 
@@ -53,7 +78,7 @@ function newItem(x, y, width, height)
         if self.onGround == false then
             return
         end
-        item.jumpsLeft = 16
+        item.jumpsLeft = 18
     end
 
     return item
