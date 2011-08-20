@@ -43,8 +43,6 @@ function newItem(x, y, width, height)
                     and core.level:getTileAt(item.x + self.width - 4,
                                     item.y + self.height).wall == false then
             self.onGround = false
-            print("no ground detected")
-            io.flush()
         end
     end
 
