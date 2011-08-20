@@ -8,8 +8,14 @@ function newGridLayoutFromImage(filename, tileSize)
     for y = 0, img:getHeight() - 1 do
         for x = 0, img:getWidth() - 1 do
             r, g, b, a = img:getPixel(x, y)
-            if r ~= 0 and g ~= 0 and b ~= 0 then
-                gridLayout.grid[y * gridLayout.width + x] = 1
+            if r == 255 and g == 255 and b == 255 then
+                gridLayout.grid[y * gridLayout.width + x].tile = 1
+            elseif r == 255 and g == 0 and b == 0 then
+                gridLayout.grid[y * gridLayout.width + x].tile = 2
+            elseif r == 0 and g == 255 and b == 0 then
+                gridLayout.grid[y * gridLayout.width + x].tile = 3
+            elseif r == 0 and g == 0 and b == 255 then
+                gridLayout.grid[y * gridLayout.width + x].tile = 4
             end
         end
     end
@@ -38,6 +44,15 @@ function newGridLayout(width, height, tileSize)
             for x = xBegin, xTo do
                 tile = self.grid[y * self.width + x]
                 if tile.tile ~= 0 then
+                    if tile.tile == 1 then
+                        love.graphics.setColor({255, 255, 255})
+                    elseif tile.tile == 2 then
+                        love.graphics.setColor({255, 0, 0})
+                    elseif tile.tile == 3 then
+                        love.graphics.setColor({0, 255, 0})
+                    elseif tile.tile == 4 then
+                        love.graphics.setColor({0, 0, 255})
+                    end
                     love.graphics.rectangle('fill', x * self.tileSize,
                                             y * self.tileSize,
                                             self.tileSize,
