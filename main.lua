@@ -12,6 +12,9 @@ end
 function love.update(dt)
     camera.x = camera.x + 0.1
     core:update(dt)
+    if player.y > 500 then
+        player.onGround = true
+    end
 end
 
 function love.draw()
