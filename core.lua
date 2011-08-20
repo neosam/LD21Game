@@ -13,6 +13,8 @@ function core:update(dt)
             if self.level:getTileAt(item.x, newY + item.height).wall then
                 print("Hit ground")
                 item.onGround = true
+                item.y = math.floor(item.y / self.level.tileSize + 1) 
+                                * self.level.tileSize 
             else
                 item.y = newY
             end
