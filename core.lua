@@ -43,9 +43,9 @@ end
 
 function core:handleInput()
     if love.keyboard.isDown('left') then
-        self.player.x = self.player.x - 2
+        self.player:move(-2, 0)
     end
     if love.keyboard.isDown('right') then
-        self.player.x = self.player.x + 2
+        self.player:move(2, 0)
     end
 end
