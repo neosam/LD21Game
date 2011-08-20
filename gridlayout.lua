@@ -25,6 +25,10 @@ function newGridLayoutFromImage(filename, tileSize)
             elseif r == 255 and g == 0 and b == 255 then
                 gridLayout.grid[y * gridLayout.width + x].wall = false
                 gridLayout.grid[y * gridLayout.width + x].checkpoint = true
+                gridLayout.grid[y * gridLayout.width + x].tile = 5
+            elseif r == 204 and g == 204 and b == 204 then
+                gridLayout.grid[y * gridLayout.width + x].wall = false
+                gridLayout.grid[y * gridLayout.width + x].tile = 5
             end
 
         end
@@ -68,6 +72,9 @@ function newGridLayout(width, height, tileSize)
         local quad2 = love.graphics.newQuad(33, 0, 32, 32, 
                             self.tileImage:getWidth(),
                             self.tileImage:getHeight())
+        local quad5 = love.graphics.newQuad(65, 0, 32, 32, 
+                            self.tileImage:getWidth(),
+                            self.tileImage:getHeight())
         love.graphics.setColor({255, 255, 255})
         for y = yBegin, yTo do
             for x = xBegin, xTo do
@@ -79,6 +86,8 @@ function newGridLayout(width, height, tileSize)
                         quad = quad2
                     elseif tile.tile == 3 then
                     elseif tile.tile == 4 then
+                    elseif tile.tile == 5 then
+                        quad = quad5
                     end
                     love.graphics.drawq(self.tileImage, quad, 
                                     (x+1) * self.tileSize,

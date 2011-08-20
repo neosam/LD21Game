@@ -4,6 +4,7 @@ require('item.lua')
 require('core.lua')
 require('enemy.lua')
 require('sprite.lua')
+require('bglayer.lua')
 
 function love.load()
     gridLayout = newGridLayoutFromImage('level.png')
@@ -14,6 +15,12 @@ function love.load()
     levelDesign = love.graphics.newImage('tiles.png')
     gridLayout.tileImage = levelDesign
     sprite = newSprite(levelDesign, 32, 64)
+    sprite:addAnimation('default', 33, 1)
+    sprite:addAnimation('run', 33, 2)
+    sprite:setAnimation('default')
+    table.insert(core.sprites, sprite)
+    background = love.graphics.newImage('background.png')
+    bgLayer = newBGLayer(background)
     for i, item in pairs(core.items) do
         item.sprite = sprite
     end
@@ -25,6 +32,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    bgLayer:draw()
     camera:set()
     gridLayout:draw()
     for i, item in pairs(core.items) do
@@ -32,7 +40,7 @@ function love.draw()
     end
     camera:unset()
     love.graphics.setColor({0, 0, 0})
-    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), 20)
+    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), 30)
     love.graphics.setColor({255, 255, 255})
     love.graphics.print("FPS: "..love.timer.getFPS(), 10, 10)
     love.graphics.print("Time left: " .. core.timeLeft, 300, 10)
