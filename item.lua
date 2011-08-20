@@ -27,9 +27,24 @@ function newItem(x, y, width, height)
                 or core.level:getTileAt(newX + self.width, newY).wall 
                 or core.level:getTileAt(newX + self.width, newY + self.height - 2).wall 
                 or core.level:getTileAt(newX, newY + self.height - 2).wall then
+            if dx > 0 then
+                self.x = math.floor((self.x - 3) / core.level.tileSize) 
+                            * core.level.tileSize + core.level.tileSize
+            else
+                self.x = math.floor(self.x / core.level.tileSize)
+                            * core.level.tileSize
+            end
         else
             item.x = newX
             item.y = newY
+        end
+        if core.level:getTileAt(item.x + 4, item.y + self.height).wall 
+                                == false
+                    and core.level:getTileAt(item.x + self.width - 4,
+                                    item.y + self.height).wall == false then
+            self.onGround = false
+            print("no ground detected")
+            io.flush()
         end
     end
 
