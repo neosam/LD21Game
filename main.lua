@@ -6,6 +6,7 @@ require('core.lua')
 function love.load()
     gridLayout = newGridLayoutFromImage('level.png')
     player = newItem(500, 100, 32, 64)
+    core.level = gridLayout
     table.insert(core.items, player)
 end
 

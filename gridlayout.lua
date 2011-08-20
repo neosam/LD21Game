@@ -17,6 +17,12 @@ function newGridLayoutFromImage(filename, tileSize)
             elseif r == 0 and g == 0 and b == 255 then
                 gridLayout.grid[y * gridLayout.width + x].tile = 4
             end
+
+            if r ~= 0 or g ~= 0 or b ~= 0 then
+                gridLayout.grid[y * gridLayout.width + x].wall = true
+                print("Set wall at "..x..", "..y)
+            end
+                io.flush()
         end
     end
 
@@ -32,7 +38,16 @@ function newGridLayout(width, height, tileSize)
     gridLayout.grid = {}
 
     for i = 0, gridLayout.size do
-        gridLayout.grid[i] = {tile=0}
+        gridLayout.grid[i] = {
+                tile=0,
+                wall=false
+        }
+    end
+
+    function gridLayout:getTileAt(x, y)
+        x = math.floor(x / self.tileSize)
+        y = math.floor(y / self.tileSize)
+        return self.grid[y * self.width + x];
     end
 
     function gridLayout:draw()
