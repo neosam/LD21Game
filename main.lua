@@ -8,10 +8,12 @@ function love.load()
     player = newItem(500, 100, 32, 64)
     core.level = gridLayout
     table.insert(core.items, player)
+    core.player = player
 end
 
 function love.update(dt)
     camera.x = camera.x + 0.1
+    core:handleInput()
     core:update(dt)
 end
 

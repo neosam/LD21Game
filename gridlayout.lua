@@ -20,9 +20,7 @@ function newGridLayoutFromImage(filename, tileSize)
 
             if r ~= 0 or g ~= 0 or b ~= 0 then
                 gridLayout.grid[y * gridLayout.width + x].wall = true
-                print("Set wall at "..x..", "..y)
             end
-                io.flush()
         end
     end
 
@@ -51,10 +49,10 @@ function newGridLayout(width, height, tileSize)
     end
 
     function gridLayout:draw()
-        local xBegin = math.floor(camera.x / self.tileSize)
-        local yBegin = math.floor(camera.y / self.tileSize)
-        local xTo = xBegin + 32
-        local yTo = yBegin + 32
+        local xBegin = math.max(math.floor(camera.x / self.tileSize), 0)
+        local yBegin = math.max(math.floor(camera.y / self.tileSize), 0)
+        local xTo = math.min(xBegin + 32, self.width - 1)
+        local yTo = math.min(yBegin + 32, self.height - 1)
         for y = yBegin, yTo do
             for x = xBegin, xTo do
                 tile = self.grid[y * self.width + x]
