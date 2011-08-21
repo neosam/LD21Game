@@ -20,6 +20,8 @@ function love.load()
     sprite:setAnimation('default')
     table.insert(core.sprites, sprite)
     background = love.graphics.newImage('background.png')
+    core.gameLogo =love.graphics.newImage('titlescreen.png')
+    core.deadLogo =love.graphics.newImage('dead.png')
     bgLayer = newBGLayer(background)
     for i, item in pairs(core.items) do
         item.sprite = sprite
@@ -32,16 +34,5 @@ function love.update(dt)
 end
 
 function love.draw()
-    bgLayer:draw()
-    camera:set()
-    gridLayout:draw()
-    for i, item in pairs(core.items) do
-        item:draw()
-    end
-    camera:unset()
-    love.graphics.setColor({0, 0, 0})
-    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), 30)
-    love.graphics.setColor({255, 255, 255})
-    love.graphics.print("FPS: "..love.timer.getFPS(), 10, 10)
-    love.graphics.print("Time left: " .. core.timeLeft, 300, 10)
+    core:draw()
 end
