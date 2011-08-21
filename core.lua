@@ -115,6 +115,8 @@ function core:ingameUpdate(dt)
     core.timeLeft = core.timeLeft - 1
     if core.timeLeft < 0 then
         core.state = 3
+        core.sadSound:stop()
+        core.sadSound:play()
     end
 
     -- reset camera position
@@ -189,6 +191,7 @@ function core:titleScreenUpdate(dt)
         if i > 1 then
             return
         end
+        core.blipSound:play()
         core.timeLeft = 1000
         core.level = nil
         core.player = nil
@@ -211,6 +214,20 @@ function core:titleScreenUpdate(dt)
                             'story9.png',
                             'story10.png',
                             'story11.png',
+                            }
+       core.storySounds = {
+                            core.blipSound,
+                            core.funnySound,
+                            core.funnySound,
+                            core.blipSound,
+                            core.sadSound,
+                            core.blipSound,
+                            core.blipSound,
+                            core.checkpointSound,
+                            core.sadSound,
+                            core.checkpointSound,
+                            core.sadSound,
+                            core.checkpointSound
                             }
         core.storyIndex = 1
         core.state = 1
@@ -243,6 +260,12 @@ function prepareForStory2()
         core.storyImages = {'story12.png', 
                             'story13.png',
                             'story14.png',
+                            }  
+       core.storySounds = {
+                            core.blipSound,
+                            core.sadSound,
+                            core.jumpSound,
+                            core.checkpointSound,
                             }
         core.storyIndex = 1
         core.state = 1
@@ -261,6 +284,18 @@ function prepareForStory3()
                             'story22.png',
                             'story23.png',
                             'story24.png',
+                            }
+       core.storySounds = {
+                            core.blipSound,
+                            core.sadSound,
+                            core.sadSound,
+                            core.funnySound,
+                            core.funnySound,
+                            core.funnySound,
+                            core.sadSound,
+                            core.blipSound,
+                            core.blipSound,
+                            core.blipSound,
                             }
         core.storyIndex = 1
         core.state = 1
@@ -326,6 +361,10 @@ function core:storyImageUpdate(dt)
                 end
             end
             core.currentStoryImage = nil
+            if core.storySounds[core.storyIndex] ~= nil then
+                core.storySounds[core.storyIndex]:stop()
+                core.storySounds[core.storyIndex]:play()
+            end
         end
     else
         wasStoryButtonReleased = true

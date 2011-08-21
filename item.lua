@@ -72,7 +72,8 @@ function newItem(x, y, width, height)
             core.timeLeft = core.timeLeft + 1000
             core.lastCheckpoint = {x=newX, y=newY, startpoint=false}
             io.flush()
-
+            core.checkpointSound:stop()
+            core.checkpointSound:play()
         end
         if core.level:getTileAt(newX, newY).goal 
                 or core.level:getTileAt(newX + self.width, newY).goal 
@@ -87,6 +88,8 @@ function newItem(x, y, width, height)
             elseif core.storyline == 2 and core.storyIndex > 2 then
                 prepareForStory3()
             end
+            core.checkpointSound:stop()
+            core.checkpointSound:play()
             core.state = 1
         end
         return possible
@@ -96,6 +99,8 @@ function newItem(x, y, width, height)
         if self.onGround == false then
             return
         end
+        core.jumpSound:stop()
+        core.jumpSound:play()
         item.jumpsLeft = 18
     end
 

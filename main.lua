@@ -26,6 +26,11 @@ function love.load()
     for i, item in pairs(core.items) do
         item.sprite = sprite
     end
+    core.jumpSound = love.audio.newSource("jump19.wav", "static")
+    core.checkpointSound = love.audio.newSource("checkpoint.wav", "static")
+    core.funnySound = love.audio.newSource("happy.wav", "static")
+    core.sadSound = love.audio.newSource("sad.wav", "static")
+    core.blipSound = love.audio.newSource("blip.wav", "static")
 
     love.graphics.setCaption("Dragon's Bloodmoney - a stupid game")
 end
