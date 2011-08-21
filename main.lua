@@ -26,6 +26,8 @@ function love.load()
     for i, item in pairs(core.items) do
         item.sprite = sprite
     end
+
+    love.graphics.setCaption("Dragon's Bloodmoney - a stupid game")
 end
 
 function love.update(dt)

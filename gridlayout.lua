@@ -1,7 +1,7 @@
 
 function newGridLayoutFromImage(filename, tileSize)
     local img = love.image.newImageData(filename)
-    gridLayout = newGridLayout(img:getWidth(), img:getHeight(),
+    local gridLayout = newGridLayout(img:getWidth(), img:getHeight(),
             tileSize)
 
     for y = 0, img:getHeight() - 1 do
@@ -25,10 +25,14 @@ function newGridLayoutFromImage(filename, tileSize)
             elseif r == 255 and g == 0 and b == 255 then
                 gridLayout.grid[y * gridLayout.width + x].wall = false
                 gridLayout.grid[y * gridLayout.width + x].checkpoint = true
+                gridLayout.grid[y * gridLayout.width + x].initCheckpoint = true
                 gridLayout.grid[y * gridLayout.width + x].tile = 5
             elseif r == 204 and g == 204 and b == 204 then
                 gridLayout.grid[y * gridLayout.width + x].wall = false
                 gridLayout.grid[y * gridLayout.width + x].tile = 5
+            elseif r == 17 and g == 17 and b == 17 then
+                gridLayout.grid[y * gridLayout.width + x].wall = false
+                gridLayout.grid[y * gridLayout.width + x].goal = true
             end
 
         end
@@ -50,6 +54,7 @@ function newGridLayout(width, height, tileSize)
         gridLayout.grid[i] = {
                 tile=0,
                 wall=false,
+                initCheckpoint = false,
                 checkpoint = false
         }
     end
@@ -72,6 +77,9 @@ function newGridLayout(width, height, tileSize)
         local quad2 = love.graphics.newQuad(33, 0, 32, 32, 
                             self.tileImage:getWidth(),
                             self.tileImage:getHeight())
+        local quad3 = love.graphics.newQuad(98, 0, 32, 32, 
+                            self.tileImage:getWidth(),
+                            self.tileImage:getHeight())
         local quad5 = love.graphics.newQuad(65, 0, 32, 32, 
                             self.tileImage:getWidth(),
                             self.tileImage:getHeight())
@@ -85,6 +93,7 @@ function newGridLayout(width, height, tileSize)
                     elseif tile.tile == 2 then
                         quad = quad2
                     elseif tile.tile == 3 then
+                        quad = quad3
                     elseif tile.tile == 4 then
                     elseif tile.tile == 5 then
                         quad = quad5

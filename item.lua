@@ -70,8 +70,24 @@ function newItem(x, y, width, height)
             core.level:getTileAt(newX + self.width, newY + self.height/4*2 + 2).checkpoint = false
             core.level:getTileAt(newX, newY + self.height/4*3 + 2).checkpoint = false
             core.timeLeft = core.timeLeft + 1000
+            core.lastCheckpoint = {x=newX, y=newY, startpoint=false}
             io.flush()
 
+        end
+        if core.level:getTileAt(newX, newY).goal 
+                or core.level:getTileAt(newX + self.width, newY).goal 
+                or core.level:getTileAt(newX + self.width, newY + self.height - 2).goal 
+                or core.level:getTileAt(newX, newY + self.height - 2).goal 
+                or core.level:getTileAt(newX + self.width, newY + self.height/2 - 2).goal 
+                or core.level:getTileAt(newX, newY + self.height/2 - 2).goal 
+                or core.level:getTileAt(newX + self.width, newY + self.height/4*2 + 2).goal 
+                or core.level:getTileAt(newX, newY + self.height/4*3 + 2).goal then
+            if core.storyline == 0 then
+                prepareForStory2()
+            elseif core.storyline == 2 and core.storyIndex > 2 then
+                prepareForStory3()
+            end
+            core.state = 1
         end
         return possible
     end

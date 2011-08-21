@@ -13,6 +13,8 @@ core.gameLogo = nil
 core.deadLogo = nil
 core.storyImages = {}
 core.state = 0
+core.storyline = 0
+core.lastCheckpoint = nil
 
 function core:handleCamera()
     local dx = player.x - camera.x
@@ -212,6 +214,8 @@ function core:titleScreenUpdate(dt)
                             }
         core.storyIndex = 1
         core.state = 1
+        core.storyline = 0
+        core.lastCheckpoint = {x=500, y=100, startpoint=true}
 
         gridLayout = newGridLayoutFromImage('level.png')
         player = newItem(500, 100, 32, 64)
@@ -235,7 +239,75 @@ function core:titleScreenUpdate(dt)
     end
 end
 
+function prepareForStory2()
+        core.storyImages = {'story12.png', 
+                            'story13.png',
+                            'story14.png',
+                            }
+        core.storyIndex = 1
+        core.state = 1
+        core.storyline = 1
+        print("Switched to storyline 2")
+        io.flush()
+end
+function prepareForStory3()
+        core.storyImages = {'story15.png', 
+                            'story16.png',
+                            'story17.png',
+                            'story18.png',
+                            'story19.png',
+                            'story20.png',
+                            'story21.png',
+                            'story22.png',
+                            'story23.png',
+                            'story24.png',
+                            }
+        core.storyIndex = 1
+        core.state = 1
+        core.storyline = 3
+        print("Switched to storyline 3")
+        io.flush()
+end
+
+function prepareForLevel2()
+        core.timeLeft = 1000
+        core.level = nil
+        core.player = nil
+        core.items = {}
+        core.gravity = 8
+        core.cameraPlayerDistance = 200 
+        core.enemies = {}
+        core.timeLeft = 1000
+        core.lastCheckpoint = {x=32000-100, y=3200-200, startpoint=true}
+    
+        gridLayout = newGridLayoutFromImage('level2.png')
+        player = newItem(32000 - 100, 3200-200, 32, 64)
+        --player = newItem(500, 100, 32, 64)
+        core.level = gridLayout
+        table.insert(core.items, player)
+        core.player = player
+        levelDesign = love.graphics.newImage('tiles.png')
+        gridLayout.tileImage = levelDesign
+        sprite = newSprite(levelDesign, 32, 64)
+        sprite:addAnimation('default', 33, 1)
+        sprite:addAnimation('run', 33, 2)
+        sprite:setAnimation('default')
+        table.insert(core.sprites, sprite)
+        background = love.graphics.newImage('background2.png')
+        core.gameLogo =love.graphics.newImage('titlescreen.png')
+        core.deadLogo =love.graphics.newImage('dead.png')
+        bgLayer = newBGLayer(background)
+        for i, item in pairs(core.items) do
+            item.sprite = sprite
+        end
+end
+
 function core:storyImageUpdate(dt)
+    if core.storyline == 1 then
+        core.storyline = 2
+    elseif core.storyline == 3 then
+        core.storyline = 4
+    end
     if wasStoryButtonReleased == nil then
         wasStoryButtonReleased = false
     end
@@ -244,7 +316,14 @@ function core:storyImageUpdate(dt)
             wasStoryButtonReleased = false
             core.storyIndex = core.storyIndex + 1
             if core.storyIndex > table.getn(core.storyImages) then
-                core.state = 2
+                if core.storyline == 2 then
+                    prepareForLevel2()
+                end
+                if core.storyline == 4 then
+                    core.storyIndex = core.storyIndex - 1
+                else
+                    core.state = 2
+                end
             end
             core.currentStoryImage = nil
         end
@@ -255,6 +334,20 @@ end
 
 function core:deadUpdate(dt)
     if love.keyboard.isDown(' ') then
-        core.state = 0
+        --core.state = 0
+        core.state = 2
+        core.player.x = core.lastCheckpoint.x
+        core.player.y = core.lastCheckpoint.y
+        if core.lastCheckpoint.startpoint then
+            core.timeLeft = 1000
+        else 
+            core.timeLeft = 0
+        end
+        for i, tile in pairs(core.level.grid) do
+            if tile.initCheckpoint then
+                tile.checkpoint = true
+            end
+        end
+        core.player:move(0, 0)
     end
 end
