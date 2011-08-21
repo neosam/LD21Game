@@ -36,6 +36,9 @@ function love.load()
 end
 
 function love.update(dt)
+    if dt < 1 / 35 then
+        love.timer.sleep(1000 * (1/35 - dt))
+    end
     core:handleInput()
     core:update(dt)
 end
